@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>AR 名片：椅子模型 + 音檔</title>
+    <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background: black;
+      }
+      #mainBtn, #exampleBtn {
+        position: absolute;
+        z-index: 999;
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 6px;
+        font-size: 14px;
+        padding: 8px 12px;
+        border: none;
+        cursor: pointer;
+      }
+      #mainBtn {
+        top: 10px;
+        left: 10px;
+      }
+      #exampleBtn {
+        bottom: 20px;
+        right: 10px;
+      }
+      #exampleBox {
+        position: absolute;
+        bottom: 70px;
+        right: 10px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 8px;
+        padding: 10px;
+        z-index: 999;
+        display: none;
+        max-width: 240px;
+      }
+      #exampleBox p {
+        font-size: 14px;
+        margin: 0 0 8px 0;
+      }
+      #exampleBox button {
+        font-size: 13px;
+        padding: 6px 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="mainBtn" onclick="document.getElementById('mainAudio').play()">🔊 播放音檔</button>
+    <button id="exampleBtn" onclick="toggleExample()">💬 例句</button>
+    <div id="exampleBox">
+      <p>例句：This is a chair.</p>
+      <button onclick="document.getElementById('exampleAudio').play()">▶ 播放例句</button>
+    </div>
+    <audio id="mainAudio" src="isu.mp3"></audio>
+    <audio id="exampleAudio" src="example-isu.mp3"></audio>
+    <a-scene
+      mindar-image="imageTargetSrc: targets.mind; autoStart: true; uiScanning: true; uiLoading: true; uiError: true;"
+      color-space="sRGB"
+      renderer="colorManagement: true; physicallyCorrectLights: true"
+      embedded
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+    >
+      <a-assets>
+        <img id="mainImage" src="card1.jpg" />
+      </a-assets>
+      <a-light type="ambient" intensity="3"></a-light>
+      <a-camera look-controls="enabled: false"></a-camera>
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-plane src="#mainImage" width="1.2" height="0.7" position="0 0 0.01"></a-plane>
+        <a-box position="0 0.25 0" depth="0.4" height="0.1" width="0.4" color="#8B4513"></a-box>
+        <a-box position="0 0.5 -0.15" depth="0.05" height="0.3" width="0.4" color="#A0522D"></a-box>
+        <a-cylinder position="-0.15 0.05 -0.15" radius="0.03" height="0.1" color="#654321"></a-cylinder>
+        <a-cylinder position="0.15 0.05 -0.15" radius="0.03" height="0.1" color="#654321"></a-cylinder>
+        <a-cylinder position="-0.15 0.05 0.15" radius="0.03" height="0.1" color="#654321"></a-cylinder>
+        <a-cylinder position="0.15 0.05 0.15" radius="0.03" height="0.1" color="#654321"></a-cylinder>
+      </a-entity>
+    </a-scene>
+    <script>
+      function toggleExample() {
+        const box = document.getElementById("exampleBox");
+        box.style.display = box.style.display === "none" ? "block" : "none";
+      }
+    </script>
+  </body>
+</html>
